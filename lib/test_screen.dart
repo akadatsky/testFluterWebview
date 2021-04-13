@@ -10,6 +10,18 @@ const initUrl = 'https://www.work.ua/ru/news/site/1626/';
 // launchApp('https://www.work.ua/ru/news/site/1626/');
 // launchApp('https://www.youtube.com/watch?v=AWnQedD4BlI');
 
+const redirectApps = [
+  'instagram.com',
+  'www.instagram.com',
+  'youtube.com',
+  'www.youtube.com',
+  'youtu.be',
+  'm.youtube.com',
+  'facebook.com',
+  'www.facebook.com',
+  'm.facebook.com',
+];
+
 class _ScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
@@ -31,6 +43,13 @@ class _ScreenState extends State<TestScreen> {
                   : '',
             ),
           ),
+          shouldOverrideUrlLoading: (controller, request) async {
+            final uri = Uri.parse(request.url);
+            if (redirectApps.contains(uri.host?.toLowerCase())) {
+              return ShouldOverrideUrlLoadingAction.CANCEL;
+            }
+            return ShouldOverrideUrlLoadingAction.ALLOW;
+          },
         ),
       ),
     );
